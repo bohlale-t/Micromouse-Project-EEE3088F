@@ -1,0 +1,133 @@
+% ----------------------------------------------------
+% Subsystem Design
+% ----------------------------------------------------
+\documentclass[class=report,11pt,crop=false]{standalone}
+\input{../Style/ChapterStyle.tex}
+\begin{document}
+% ----------------------------------------------------
+\chapter{Subsystem Design} \label{ch:design}
+\vspace{-1cm}
+% =====================================================
+\section{Design Decisions}
+\tabitem Battery charging circuit\\
+
+Using a TP4056-42 lithium-ion battery charger, the system incorporates safeguards such as overcharge protection, ensuring the battery is safely charged to 4.2 volts, along with overdischarge and overcurrent protection. However, it does have limitation: the inability to charge the battery while it's discharging, and cessation of charging when the charge rate falls below 130mA. This constraint is solved by integrating a diode at the standby and charging terminals, enabling the system to draw power directly from the input source rather than just depleting the battery. This ensures continuous functionality. MCP73812T-420i/ot was the initial component used for the section ,however, it is of a higher cost. So the TP4056-42 is a more suitable component.\\
+
+\tabitem Switching circuit\\
+
+
+A sliding switch was used into the design to allow users to control the device's power state, enabling it to be turned on and off as desired, and ensuring it remains at the ON state throughout maze. This choice is the more suitable option compared to the pushbutton switch, where continuous pressure is required for functionality,this is not sustainable as the micromouse can not be continuously held as it explores the maze. By opting for a sliding switch, users have the flexibility to maintain the device in the desired state without the need for constant manual input, enhancing usability and user experience during maze exploration.\\
+
+
+\tabitem ADC voltage divider\\
+
+Incorporating a voltage divider into the circuit design offers precise control over the output voltage by adjusting the resistors, crucial for meeting the specific requirements of the STM32L476 microcontroller, which needs a voltage range of 1.62V to 3.6V to operate safely. By utilizing the voltage divider, the system can reliably generate voltages within this prescribed range, mitigating the risk of damaging the microcontroller due to overvoltage. However, it's important to note a limitation: the voltage divider may not be suitable for low impedance loads, posing a constraint in certain applications where such loads are present.
+Vbatt_adc= Vbatt(R1/(R1+R2))
+
+\tabitem Motor drivers\\
+
+Using H Bridge ICs, namely the DRV8837, as the motor drivers in the system facilitates powering the motors from an external source, such as the battery, ensuring efficient and controlled motor operation. Each H bridge enables bi-directional motor rotation, allowing clockwise or anticlockwise movement as needed, enhancing the versatility and functionality of the system. This setup provides the capability to precisely control motor movements. 
+
+The ULN2003A could have been used as an alternative option. It is a darlington pair IC. Due to it only being able to facilitate half a rotation there would be a need for a lot more ICs. This would complicate the circuit as well as increase costs. It also does not distribute power as well as the DRV8837.
+
+\tabitem Connector pins\\
+
+
+Incorporating connector pins into the system fulfills essential requirements, facilitating connections to various components such as the Motor, batteries, battery ADC, and pulse width modulation (PWM) interfaces. These connector pins serve as crucial interfaces, enabling seamless integration and communication between different subsystems and components, enhancing the overall functionality and versatility of the system.
+
+\subsection{Final Design}
+
+% 1. Provide a description of your solution and motivate why this design was chosen.
+% 2. Provide the final schematic, make sure to include:
+%       - labels and component values
+%       - descriptions/comments on different parts of the schematic
+%       - the completed schematic page setup: title, date, revision number, author name and surname.
+%       - power flags on all power connections (3V, 5V, Gnd, etc)
+% 2. Provide the final PCB, make sure to include:
+%       - front, back and 3D view 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{EEE3088F_latex_template/Figures/schamatic.png}
+    \caption{Schematic}
+    \label{fig:schematic}
+\end{figure}
+
+\begin{figure}[h]
+     \centering
+    % First subfigure
+    \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\linewidth]{EEE3088F_latex_template/Figures/front.png}
+        \caption{Front PCB}
+        \label{fig:PCB_front}
+    \end{subfigure}
+    \hfill % Space between the subfigures
+    % Second subfigure
+    \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\linewidth]{EEE3088F_latex_template/Figures/back.png}
+        \caption{Back PCB}
+        \label{fig:PCB_back}
+    \end{subfigure}
+    \hfill % Space between the subfigures
+    % Third subfigure
+    \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\linewidth]{EEE3088F_latex_template/Figures/3d.png}
+        \caption{3D PCB}
+        \label{fig:PCB_3D}
+    \end{subfigure}
+    \caption{PCB}
+    \label{fig:PCB}
+\end{figure}
+% =====================================================
+\section{Failure Management}
+
+\begin{table}[h]
+    \centering
+    \caption{Table of the failure management solutions used} \label{tab:failuremanagement}
+    \begin{tabular}{|c|m{12cm}|}
+        \hline
+        \textbf{Name} & \textbf{Description} \\
+        \hline
+         Jumpers & Open jumpers are used ar the points in the circuitry that the designer is usure that the connection will work or will not damage the components. In this case the are used at input points of the different circuits \\
+         \hline
+         Test points  &  Test points are used to observe the state of the circuit at that point. This can be helpful with failure manegment by monitoring while testing to see what works and what would cause damage.  \\
+         \hline
+         Capacitor &  Allow cuurent to flow through a circuit gradually. This protects components from damage and helps with power distrubution.\\
+         \hline
+    \end{tabular}
+\end{table}
+
+% =====================================================
+\section{System Integration and Interfacing}
+To integrate the subsystem with the rest of the system ....
+\\
+\begin{table}[h]
+  \begin{center}
+    \caption{Interfacing specifications}
+    \label{tab:Interfacing}
+    \begin{tabular}{ >{\centering\arraybackslash}m{3cm}  m{5cm} m{7cm}}
+      \hline
+      \textbf{Interface} & \textbf{Description} & \textbf{Pins/Output} \\   
+      \hline
+      I001 & Power subsytem to STM board for continuous signal & \tabitem Connector pin14 to STM PC6-9 
+      \newline\indent\tabitem Power subsystem to motor for diving \\
+      \hline
+      I002 & Power subsystem to motor for diving &\tabitem 1 and pin 3 to motor 2\\
+      \hline 
+      I003 & ower subsystem to motor for diving  & \tabitem Pin 15 and pin 13 to motor 1 \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{EEE3088F_latex_template/Figures/context diagram.png}
+    \caption{Context diagram}
+    \label{fig:context diagram}
+\end{figure}
+% ----------------------------------------------------
+\ifstandalone
+\bibliography{../Bibliography/References.bib}
+\fi
+\end{document}
+% ----------------------------------------------------

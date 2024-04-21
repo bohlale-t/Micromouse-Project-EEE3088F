@@ -1,0 +1,128 @@
+% ----------------------------------------------------
+% Requirements Analysis
+% ----------------------------------------------------
+\documentclass[class=report,11pt,crop=false]{standalone}
+\input{../Style/ChapterStyle.tex}
+\begin{document}
+% ----------------------------------------------------
+\chapter{Requirements Analysis} \label{ch:reqAnalysis}
+\vspace{-1cm}
+% ----------------------------------------------------
+
+\section{Requirements}
+The requirements for a micromouse power module are described in \autoref{tab:requirements}.
+\begin{table}[h]
+    \centering
+    \caption{User and functional requirements of the power subsystem.}    \label{tab:requirements}
+    \begin{tabular}{|c|m{12cm}|}
+        \hline
+        \textbf{ Requirement ID} & \textbf{Description} \\
+        \hline
+         UR01 & Drive the two motors\\
+         \hline
+         UR02 & Has an analog connection to indicate to the processor the battery's voltage. This is to detect the battery state of charge \\
+         \hline
+         UR03 & Charge the battery\\
+         \hline
+         UR04 & ON/OFF switch \\
+         \hline
+         UR05 & Include a connector for the battery \\
+         \hline
+         UR06 & Include connector for the pin header \\
+         \hline
+         UR07 & Board must be of an appropriate size and shape \\
+         \hline
+         UR04 & Adhere to the budget \\
+         \hline
+    \end{tabular}
+\end{table}
+
+% =====================================================
+\section{Specifications}
+The specifications, refined from the requirements in \autoref{tab:requirements}, for the micromouse power module are described in \autoref{tab:specifications}.
+\begin{table}[h]
+    \centering
+    \caption{Specifications of the power subsystem derived from the requirements in \autoref{tab:requirements}.}    \label{tab:specifications}
+    \begin{tabular}{|c|m{12cm}|}
+        \hline
+        \textbf{Specification ID} & \textbf{Description} \\
+        \hline
+         SP01 & Each motor has to only draw a current of 200mA at the maximum voltage of the batter (around 4.2V) \\
+         \hline
+         SP02 & Charges battery from 5V input pin \\
+         \hline
+         SP03 & Use a 1S1P battery \\
+         \hline
+         SP04 & Use the 5V input pin to charge the battery\\
+         \hline
+         SP05 & At OFF state: the battery should draw less that 500uA \\
+         \hline
+         SP06 & At ON state: should be at the micromouse's peak current \\
+         \hline
+         SP07 & Use a JST PH 2mm pin pitch connector for the battery \\
+         \hline
+         SP08 & Use a 2x8 (2.54mm pin pitch) pin header \\
+         \hline
+         SP09 & shape of the PCB: height- 18mm or greater, width- 35mm or less. Connector pins should be at the middle \\
+         \hline
+         SP010 & Construction should be within the budget of R360 \\
+         \hline
+    \end{tabular}
+\end{table}
+
+% =====================================================
+\section{Testing Procedures}
+A summary of the testing procedures detailed in \autoref{ch:atp} is given in \autoref{tab:atps_summary}.
+\begin{table}[h]
+    \centering
+    \caption{ The summary of acceptance tests that will be used derived form the acceptance tests chapter}
+    \label{tab:atps_summary}
+    \begin{tabular}{|c|m{10cm}|}
+        \hline
+        \textbf{Acceptance Test ID} & \textbf{Description} \\
+        \hline
+         AT01 & Current drawn from each of the motors [using an ammeter]\\
+         \hline
+         AT02 & Battery's  output voltage to sense the state of charge [voltmeter]\\
+         \hline
+         AT03 & Current drawn at ON stage [Ammeter]\\
+         \hline
+         AT04 & Current drawn at OFF stage [Ammeter]\\
+         \hline
+         AT05 & Ensure the battery is being charged [Voltmeter]\\
+         \hline
+    \end{tabular}
+\end{table}
+
+% =====================================================
+\section{Traceability Analysis}
+The show how the requirements, specifications and testing procedures all link, \autoref{tab:matrix} is provided.
+
+\begin{table}[h]
+    \centering
+    \caption{Requirements Traceability Matrix}
+    \label{tab:matrix}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \# & Requirements & Specifications  & Acceptance Test\\
+        \hline
+         1 & UR01 &  SP01 & AT01 \\
+         2 & FR01 & SP02,SP05 & AT03 \\
+         & &  & \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Traceability Analysis 1}
+UR01 is this from which SP01, blah blah blah, can be derived. To test this AT01 is suggested because blah blah blah.
+
+\subsection{Traceability Analysis 2}
+From FR02, yadda yadda, SP02 and SP05 can be derived because blah blah blah. These can be tested through AT03 which tests yadda yadda yadda.
+
+
+% ----------------------------------------------------
+\ifstandalone
+\bibliography{../Bibliography/References.bib}
+\fi
+\end{document}
+% ----------------------------------------------------

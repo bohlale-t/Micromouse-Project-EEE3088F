@@ -1,0 +1,43 @@
+% ----------------------------------------------------
+% Acceptance Testing
+% ----------------------------------------------------
+\documentclass[class=report,11pt,crop=false]{standalone}
+\input{../Style/ChapterStyle.tex}
+\begin{document}
+% ----------------------------------------------------
+\chapter{Acceptance Testing} \label{ch:atp}
+\vspace{-1cm}
+% ----------------------------------------------------
+
+\section{Tests}
+\begin{table}[h]
+  \begin{center}
+    \caption{Power Subsystem acceptance tests}
+    \label{tab:tests}
+    \begin{tabular}{ | >{\centering\arraybackslash}m{1cm}| m{4cm}| m{5cm}| m{5cm}|}
+      \hline
+      \textbf{Test ID} & \textbf{Description} & \textbf{Testing Procedure}& \textbf{Pass/Fail Criteria} \\   
+      \hline
+       AT01& Current drawn from each of the motors &\tabitem measure the current that the motor draws from the battery when battery voltage is around the maximum  &\tabitem Pass: draws a current of 200mA or less \newline\indent\tabitem Fail: Draws a current greater than 200mA  \\
+       \hline
+       AT02& Battery's  output voltage to sense the state of charge &\tabitem Connect the analog connection for battery voltage sensing  \newline\indent\tabitem Measure the output voltage \newline\indent\tabitem Measure the actual battery voltage \newline\indent\tabitem compare the two &\tabitem Pass:The two voltages are the same or similar \newline\indent\tabitem Fail: Voltages do not match\\
+       \hline
+       AT03& Current drawn at ON state &\tabitem Measure the current draw when the switch is on  &\tabitem Pass: Below peak current \newline\indent\tabitem Fail: More than peak current\\
+       \hline
+       AT04 & Current drawn at OFF state & \tabitem Measure the current draw when the switch is off  &\tabitem Pass: Below 500uA \newline\indent\tabitem Fail: More than 500uA\\
+       \hline
+       AT05& Ensure the battery is being charged &\tabitem measure the output voltage of the battery before it is charge  \newline\indent\tabitem connect the charging pin to the input 5V \newline\indent\tabitem measure the output voltage of the battery after it has been charged \newline\indent\tabitem compare the two voltages to see if it functions &\tabitem Pass: Charges the battery \newline\indent\tabitem Fail: Does not charge the battery or overcharges it\\
+      \hline 
+    \end{tabular}
+  \end{center}
+\end{table}
+
+% =====================================================
+
+
+% ----------------------------------------------------
+\ifstandalone
+\bibliography{../Bibliography/References.bib}
+\fi
+\end{document}
+% ----------------------------------------------------
